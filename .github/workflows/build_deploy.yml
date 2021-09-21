@@ -16,7 +16,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-
     - name: Build for Release
       run: dotnet build --configuration Release
   
@@ -25,6 +24,7 @@ jobs:
     needs: build                                    # run after build job
     runs-on: windows-latest                         
     steps:
+    - uses: actions/checkout@v2
     - name: Run unit tests
       run: dotnet test bmiUnitTestProject/bmiUnitTestProject.csproj --collect "Code coverage" 
 
