@@ -20,11 +20,10 @@ jobs:
       run: dotnet build --configuration Release
   
   test:                                                 # run unit tests
-    name: unit test
+    name: unittest
     needs: unitbuild                                    # run after build job
     runs-on: windows-latest                         
     steps:
-    - uses: actions/checkout@v2
     - name: Run unit tests
       run: dotnet test bmiUnitTestProject/bmiUnitTestProject.csproj --no-restore --collect "Code coverage" 
 
