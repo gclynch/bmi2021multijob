@@ -1,0 +1,25 @@
+# simple workflow to run k6 load test using a docker container
+name: k6 BMI
+
+on:
+  workflow_dispatch:                  # manually triggered
+
+jobs:
+
+  k6_load_test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Pull Docker image for k6
+      run: docker pull loadimpact/k6
+
+    - name: Run k6 load test, capture report
+      run: docker run -i loadimpact/k6 run - <k6tests/perf2.js > k6report.txt
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: k6report
+        path: k6report.txt

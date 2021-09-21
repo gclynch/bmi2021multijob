@@ -1,0 +1,58 @@
+﻿@page
+@model BMICalculator.Pages.BmiModel
+
+@{
+    ViewData["Title"] = "BMI calculator";
+}
+
+<h2>BMI Calculator 2021</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" id ="convertForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BMI.WeightStones" class="control-label"></label>
+                <input asp-for="BMI.WeightStones" class="form-control" id="Bmi_WeightStones"/>
+                <span asp-validation-for="BMI.WeightStones" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BMI.WeightPounds" class="control-label"></label>
+                <input asp-for="BMI.WeightPounds" class="form-control" id="Bmi_WeightPounds"/>
+                <span asp-validation-for="BMI.WeightPounds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BMI.HeightFeet" class="control-label"></label>
+                <input asp-for="BMI.HeightFeet" class="form-control" id="Bmi_HeightFeet"/>
+                <span asp-validation-for="BMI.HeightFeet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BMI.HeightInches" class="control-label"></label>
+                <input asp-for="BMI.HeightInches" class="form-control" id="Bmi_HeightInches"/>
+                <span asp-validation-for="BMI.HeightInches" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Calculate" class="btn btn-default" />
+            </div>
+            @if (Request.Method == "POST")
+            {
+                <div>
+                    @Html.DisplayNameFor(m => m.BMI.BMIValue)
+                    <span id = "bmiVal">@Html.DisplayFor(m => m.BMI.BMIValue)</span>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(m => m.BMI.BMICategory)
+                    @Html.DisplayFor(m => m.BMI.BMICategory)
+                </div>
+            }
+        </form>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
