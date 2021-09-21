@@ -9,41 +9,20 @@ env:
 
 on:
   workflow_dispatch:                                # manually triggered
-  # trigger workflow on push to master i.e. a commit is pushed to a branch, or pull request with master as base
-  #push:
-  #  branches: [ master ]
-  #pull_request:
-  #  branches: [ master ]
 
 jobs:
-  build_test_deploy:
+  build:                                            # build for release
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
 
     - name: Build for Release
       run: dotnet build --configuration Release
-
+  
+  test:                                             # run unit tests
+    needs: build                                    # run after build job
+    runs-on: windows-latest                         
+    steps:
     - name: Run unit tests
       run: dotnet test bmiUnitTestProject/bmiUnitTestProject.csproj --no-restore --collect "Code coverage" 
 
-    - name: Publish web app
-      run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
-      
-    # Deploy to Azure Web app
-    - name: Run Azure webapp deploy action using publish profile credentials
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}                        # e.g. gc-bmicalculator-ga
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
-        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
-    
-    # Run Selenium tests
-    - name: Run Selenium tests
-      run: dotnet test ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
-  
-    # upload results of selenium tests
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Selenium Tests Results
-        path: TestResults/selenium.trx
