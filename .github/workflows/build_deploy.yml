@@ -11,20 +11,26 @@ on:
   workflow_dispatch:                                # manually triggered
 
 jobs:
-  build:                                            # build for release
-    name: build
+  build_unittest:                                       
+    name: build and unit test
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build for Release
       run: dotnet build --configuration Release
-  
-  test:                                             # run unit tests
-    name: unit test
-    needs: build                                    # run after build job
-    runs-on: windows-latest                         
-    steps:
-    - uses: actions/checkout@v2
     - name: Run unit tests
       run: dotnet test bmiUnitTestProject/bmiUnitTestProject.csproj --collect "Code coverage" 
+  
+  E2E:                                             
+    name: deploy and run E2E tests
+    needs: build_unittest                                    
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Publish web app
+      run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
+      
+
+   
+  
 
