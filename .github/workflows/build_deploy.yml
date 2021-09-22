@@ -3,9 +3,7 @@
 
 name: Build Test Deploy BMI
 
-env:
-  AZURE_WEBAPP_NAME: gc-bmicalculator-ga            # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'publish'              # set this to the path to your web app project
+
 
 on:
   workflow_dispatch:                                # manually triggered
@@ -23,12 +21,28 @@ jobs:
   
   E2E:                                             
     name: deploy and run E2E tests
-    needs: build_unittest                                    
+    needs: build_unittest
+    environment:
+      name: QA
+      url: https://gc-bmicalculator-ga.azurewebsites.net                                 
     runs-on: windows-latest
+    env:
+      AZURE_WEBAPP_NAME: gc-bmicalculator-ga            # set this to your application's name
+      AZURE_WEBAPP_PACKAGE_PATH: 'publish'              # set this to the path to your web app project
     steps:
     - uses: actions/checkout@v2
     - name: Publish web app
       run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
+    
+    # Deploy to Azure Web app
+    - name: Run Azure webapp deploy action using publish profile credentials
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}                        # e.g. gc-bmicalculator-ga
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+
+   
       
 
    
