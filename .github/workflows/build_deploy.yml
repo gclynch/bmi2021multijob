@@ -18,7 +18,7 @@ jobs:
       run: dotnet test bmiUnitTestProject/bmiUnitTestProject.csproj --collect "Code coverage" 
   
   E2E:                                             
-    name: deploy and run E2E tests
+    name: deploy to QA and run E2E tests
     needs: build_unittest
     environment:
       name: QA
@@ -53,6 +53,16 @@ jobs:
         name: Selenium Tests Results
         path: TestResults/selenium.trx
 
+    # login to Azure account
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}                         # JSON objects whic represents service principal
+
+    # blue/green
+    - name: swap QA and production slots
+      run: |
+        az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production 
+
    
-  
+ #az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production 
 
