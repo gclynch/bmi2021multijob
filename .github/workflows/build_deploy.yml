@@ -31,19 +31,28 @@ jobs:
       AZURE_WEBAPP_PACKAGE_PATH: 'publish'              # set this to the path to your web app project
     steps:
     - uses: actions/checkout@v2
+
+    # publish web app ready for deployment
     - name: Publish web app
       run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
     
-    # Deploy to Azure Web app
+    # Deploy to Azure app service
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}                        # e.g. gc-bmicalculator-ga
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}                            
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}     # Define secret variable in environment
         package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
 
-   
-      
+    # Run Selenium tests
+    - name: Run Selenium tests
+      run: dotnet test ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
+  
+    # Upload results of selenium tests
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Selenium Tests Results
+        path: TestResults/selenium.trx
 
    
   
