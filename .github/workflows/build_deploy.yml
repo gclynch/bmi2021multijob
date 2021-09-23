@@ -1,5 +1,5 @@
 # build
-# deploy to Azure as App service
+# deploy to Azure as App service using blue/green
 
 name: Build Test Deploy BMI
 
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:                                # manually triggered
 
 jobs:
-  build_unittest:                                       
+  build_unit_test:                                       
     name: build and unit test
     runs-on: windows-latest
     steps:
@@ -17,12 +17,12 @@ jobs:
     - name: Run unit tests
       run: dotnet test bmiUnitTestProject/bmiUnitTestProject.csproj --collect "Code coverage" 
   
-  E2E:                                             
-    name: deploy to QA and run E2E tests
-    needs: build_unittest
+  deploy_test_blue_green:                                             
+    name: deploy to staging slot, run E2E tests, swap slots
+    needs: build_unit_test
     environment:
       name: QA
-      url: https://gc-bmicalculator-ga-QA.azurewebsites.net                                 
+      url: https://gc-bmicalculator-ga-staging.azurewebsites.net                                 
     runs-on: windows-latest
     env:
       AZURE_WEBAPP_NAME: gc-bmicalculator-ga            # set this to your application's name
@@ -61,11 +61,11 @@ jobs:
     # blue/green
     - name: swap QA and production slots
       run: |
-        az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production 
+        az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot staging --target-slot production 
 
  # swap slots  
  #az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production
- 
- # or canary, 10% to QA, remainder to production, behind production URI
- #az webapp traffic-routing set --distribution QA=10 --name gc-bmicalculator-ga --resource-group gcresourcegroup1
+
+ # or canary, 10% to staging, remainder to production, behind production URI
+ #az webapp traffic-routing set --distribution staging=10 --name gc-bmicalculator-ga --resource-group gcresourcegroup1
 
