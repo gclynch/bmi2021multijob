@@ -63,6 +63,9 @@ jobs:
       run: |
         az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production 
 
-   
- #az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production 
+ # swap slots  
+ #az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production
+ 
+ # or canary, 10% to QA, remainder to production, behind production URI
+ #az webapp traffic-routing set --distribution QA=10 --name gc-bmicalculator-ga --resource-group gcresourcegroup1
 
