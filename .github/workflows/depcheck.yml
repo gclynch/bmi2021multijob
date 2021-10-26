@@ -12,6 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Build for Release
+        run: dotnet build --configuration Release
+
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
