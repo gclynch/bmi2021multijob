@@ -1,4 +1,5 @@
 # OWASP Dependency checker
+# based on doicker image built nightly
 
 name: OWASP Dependency Checker       
   
@@ -12,14 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build for Release
-        run: dotnet build --configuration Release
-
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
         with:
-          project: 'test'
+          project: 'BMI'
           path: '.'
           format: 'HTML'    
           
