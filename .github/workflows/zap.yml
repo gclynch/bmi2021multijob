@@ -5,7 +5,7 @@
 name: ZAP BMI
 
 env:
-  URI: https://gc-bmicalculator-ga.azurewebsites.net/           
+  URI: https://gc-bmicalculator-ga-staging.azurewebsites.net/           
   
 on:
   workflow_dispatch:                  # manually triggered
