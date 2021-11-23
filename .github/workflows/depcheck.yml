@@ -1,5 +1,5 @@
 # OWASP Dependency checker
-# based on doicker image built nightly
+# based on docker image built nightly
 
 name: OWASP Dependency Checker       
   

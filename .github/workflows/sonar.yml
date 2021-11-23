@@ -1,0 +1,25 @@
+# Sonar cloud scan
+
+name: Sonar
+on:
+  workflow_dispatch:                             
+
+jobs:
+  build_package:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Sonarscanner for dotnet
+      uses: Secbyte/dotnet-sonarscanner@v2.3
+      with:
+        buildCommand: dotnet build .
+        projectKey: bmi
+        projectName: bmi
+        sonarOrganisation: gclynch
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# secrets.SONAR_TOKEN token in Github repo (generated when new project analysed on sonar cloud)
+# 
