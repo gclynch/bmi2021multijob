@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Build for Release
+      run: dotnet build --configuration Release
     - name: Sonarscanner for dotnet
       uses: Secbyte/dotnet-sonarscanner@v2.3
       with:
         buildCommand: dotnet build .
-        projectKey: bmi
-        projectName: bmi
+        projectKey: bmi2021multijob
+        projectName: bmi2021multijob
         sonarOrganisation: gclynch
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
