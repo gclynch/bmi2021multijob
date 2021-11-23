@@ -24,4 +24,3 @@ jobs:
  
 
 # secrets.SONAR_TOKEN secret in Github repo (generated when new project analysed on sonar cloud)
-# 
