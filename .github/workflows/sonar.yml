@@ -1,6 +1,6 @@
 # Sonar cloud scan
 
-name: Sonar
+name: SonarCloud
 on:
   workflow_dispatch:                             
 
