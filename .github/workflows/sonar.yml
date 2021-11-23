@@ -16,8 +16,8 @@ jobs:
       uses: Secbyte/dotnet-sonarscanner@v2.3
       with:
         buildCommand: dotnet build .
-        projectKey: bmi2021multijob
-        projectName: bmi2021multijob
+        projectKey: gclynch_bmi2021multijob
+        projectName: gclynch_bmi2021multijob
         sonarOrganisation: gclynch
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
