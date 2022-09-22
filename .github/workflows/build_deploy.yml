@@ -56,7 +56,7 @@ jobs:
     # login to Azure account
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}                         # JSON objects whic represents service principal
+        creds: ${{ secrets.AZURE_CREDENTIALS }}                         # JSON objects which represents service principal
 
     # blue/green
     - name: swap QA and production slots
@@ -64,7 +64,7 @@ jobs:
         az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot staging --target-slot production 
 
  # swap slots  
- #az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot QA --target-slot production
+ #az webapp deployment slot swap -n gc-bmicalculator-ga -g gcresourcegroup1 --slot staging --target-slot production
 
  # or canary, 10% to staging, remainder to production, behind production URI
  #az webapp traffic-routing set --distribution staging=10 --name gc-bmicalculator-ga --resource-group gcresourcegroup1
