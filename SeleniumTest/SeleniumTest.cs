@@ -45,6 +45,7 @@ namespace SeleniumTest
         {
             // read URL from SeleniumTest.runsettings
             this.webAppUri = testContextInstance.Properties["webAppUri"].ToString();
+            
             //this.webAppUri = "https://gc-bmicalculator-ga-staging.azurewebsites.net";
         }
 
