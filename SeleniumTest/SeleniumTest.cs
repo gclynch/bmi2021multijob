@@ -43,7 +43,7 @@ namespace SeleniumTest
         [TestInitialize]                // run before each unit test
         public void Setup()
         {
-            // read URL from SeleniumTest.runsettings
+            // read URL from SeleniumTest.runsettings (configure run settings)
             this.webAppUri = testContextInstance.Properties["webAppUri"].ToString();
             
             //this.webAppUri = "https://gc-bmicalculator-ga-staging.azurewebsites.net";
