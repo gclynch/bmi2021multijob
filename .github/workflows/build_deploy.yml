@@ -28,7 +28,7 @@ jobs:
       AZURE_WEBAPP_NAME: gc-bmicalculator-ga            # set this to your application's name
       AZURE_WEBAPP_PACKAGE_PATH: 'publish'              # set this to the path to your web app project
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     # publish web app ready for deployment
     - name: Publish web app

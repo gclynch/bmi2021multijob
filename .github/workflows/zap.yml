@@ -24,7 +24,7 @@ jobs:
     - name: Run baseline scan
       run: docker run -v /report:/zap/wrk/:rw --user root -t owasp/zap2docker-weekly zap-baseline.py -t ${{env.URI}} -I -r zapreport.html
   
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       name: upload ZAP report
       with:
         name: ZAPreport
