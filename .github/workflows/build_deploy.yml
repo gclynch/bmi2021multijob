@@ -11,7 +11,7 @@ jobs:
     name: build and unit test
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Build for Release
       run: dotnet build --configuration Release
     - name: Run unit tests
@@ -28,7 +28,7 @@ jobs:
       AZURE_WEBAPP_NAME: gc-bmicalculator-ga            # set this to your application's name
       AZURE_WEBAPP_PACKAGE_PATH: 'publish'              # set this to the path to your web app project
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     # publish web app ready for deployment
     - name: Publish web app
@@ -48,7 +48,7 @@ jobs:
       run: dotnet test ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
   
     # Upload results of selenium tests
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: Selenium Tests Results
         path: TestResults/selenium.trx
