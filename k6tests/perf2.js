@@ -20,11 +20,11 @@ export let options = {
     { duration: "1m", target: 0 }             // 1 less vu every 3 seconds
   ],
   
-  // set a threshold at 100 ms request duration for 95th percentile
+  // set a threshold at 200 ms request duration for 95th percentile
   // request duration = time spent sending request, waiting for response, and receiving response
   // aka "response time"
   // the test will be marked as failed by threshold if the value is exceeded 
-  // i.e. 95% of request duration times should be < 100 ms
+  // i.e. 95% of request duration times should be < 200 ms
  	thresholds: {
     "http_req_duration": ["p(95) < 200"]
   },
@@ -67,7 +67,7 @@ function getRandomInt(min, max) {
 export default function() {
  
   // do an initial GET, force response body so that form can be subsequently submited
-  let res = http.get("http://gc-bmicalculator-ga-staging.azurewebsites.net/bmi", {"responseType": "text"});
+  let res = http.get("https://gc-bmicalculator-ga-staging.azurewebsites.net/bmi", {"responseType": "text"});
 
   // cookies automatically handled i.e. cookies sent by server will be re-presented by the client in all subsequent requests
   // until end of script
@@ -95,5 +95,5 @@ export default function() {
 }
 
 // to run on Docker:
-// docker pull loadimpact/k6
-// docker run -i loadimpact/k6 run - <perf2.js
+// docker pull grafana/k6                               
+// docker run -i grafana/k6 run - <perf2.js

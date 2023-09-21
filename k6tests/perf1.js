@@ -20,11 +20,11 @@ export let options = {
     { duration: "1m", target: 0 }             // 1 less vu every 3 seconds
   ],
   
-  // set a threshold at 100 ms request duration for 95th percentile
+  // set a threshold at 200 ms request duration for 95th percentile
   // request duration = time spent sending request, waiting for response, and receiving response
   // aka "response time"
   // the test will be marked as failed by threshold if the value is exceeded 
-  // i.e. 95% of request durations should be < 100 ms
+  // i.e. 95% of request durations should be < 200 ms
  	thresholds: {
     "http_req_duration": ["p(95) < 200"]
   },
@@ -52,7 +52,7 @@ export let options = {
 // Export a default function - this defines the entry point for your VUs,
 // similar to the main() function in many other languages.
 export default function() {
-  let res = http.get("http://gc-bmicalculator-ga-staging.azurewebsites.net");
+  let res = http.get("https://gc-bmicalculator-ga-staging.azurewebsites.net/");
 
   check(res, {
       "is status 200": (r) => r.status === 200
@@ -63,5 +63,12 @@ export default function() {
 }
 
 // to run on Docker:
-// docker pull loadimpact/k6
-// docker run -i loadimpact/k6 run - <perf1.js
+// docker pull grafana/k6
+// docker run -i grafana/k6 run - <perf1.js
+
+
+// or install on machine and:
+// k6 run perf1.js
+// k6 cloud login
+// k6 cloud perf1.js
+// k6 run perf1.js --out cloud
