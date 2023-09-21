@@ -45,6 +45,7 @@ namespace bmi2021
 
             app.Use(async (context, next) =>
             {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
                 context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
                 await next();
             });
