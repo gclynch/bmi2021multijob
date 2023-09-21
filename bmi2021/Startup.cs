@@ -43,6 +43,12 @@ namespace bmi2021
                 app.UseExceptionHandler("/Error");
             }
 
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+                await next();
+            });
+
             app.UseStaticFiles();
 
             app.UseRouting();
