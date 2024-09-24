@@ -19,10 +19,10 @@ jobs:
     steps:
 
     - name: Pull Docker image for ZAP
-      run: docker pull owasp/zap2docker-weekly
+      run: docker pull zaproxy/zap-weekly
 
     - name: Run baseline scan
-      run: docker run -v /report:/zap/wrk/:rw --user root -t owasp/zap2docker-weekly zap-baseline.py -t ${{env.URI}} -I -r zapreport.html
+      run: docker run -v /report:/zap/wrk/:rw --user root -t zaproxy/zap-weekly zap-baseline.py -t ${{env.URI}} -I -r zapreport.html
   
     - uses: actions/upload-artifact@v4
       name: upload ZAP report
