@@ -25,7 +25,7 @@ jobs:
           # fail if CVSS score (CVE scoring system) is High >=8
           
       - name: Upload Test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
            name: Depcheck report
            path: ${{github.workspace}}/reports
