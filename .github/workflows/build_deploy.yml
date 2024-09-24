@@ -48,13 +48,13 @@ jobs:
       run: dotnet test ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
   
     # Upload results of selenium tests
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: Selenium Tests Results
         path: TestResults/selenium.trx
 
     # login to Azure account
-    - uses: azure/login@v1
+    - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}                         # JSON objects which represents service principal
 
