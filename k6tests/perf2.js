@@ -20,34 +20,27 @@ export let options = {
     { duration: "1m", target: 0 }             // 1 less vu every 3 seconds
   ],
   
-  // set a threshold at 200 ms request duration for 95th percentile
+  // set a threshold at 100 ms request duration for 95th percentile
   // request duration = time spent sending request, waiting for response, and receiving response
   // aka "response time"
   // the test will be marked as failed by threshold if the value is exceeded 
-  // i.e. 95% of request duration times should be < 200 ms
+  // i.e. 95% of request duration times should be < 100 ms
  	thresholds: {
-    "http_req_duration": ["p(95) < 200"]
+    "http_req_duration": ["p(95) < 100"]
   },
 
   // Don't save the bodies of HTTP responses by default, for improved performance
   // Can be overwritten by setting the `responseType` option to `text` or `binary` for individual requests
   discardResponseBodies: false,
   // overriden below for GET
-
-  ext: {
-    loadimpact: {
-      // Specify the distribution across load zones
-      //
-      // See https://docs.k6.io/docs/cloud-execution#section-cloud-execution-options
-      //
-      distribution: {
-        loadZoneLabel1: { loadZone: "amazon:ie:dublin", percent: 100 },
-
-        // Uncomment this and make sure percentage distribution adds up to 100 to use two load zones.
-        // loadZoneLabel2: { loadZone: "amazon:us:ashburn", percent: 50 }
-      }
-    }
-  }
+  
+  cloud: {
+    distribution: {
+      distributionLabel1: { loadZone: 'amazon:us:ashburn', percent: 50 },
+      distributionLabel2: { loadZone: 'amazon:ie:dublin', percent: 50 },
+    },
+  },
+ 
 };
 
 /**
@@ -95,5 +88,5 @@ export default function() {
 }
 
 // to run on Docker:
-// docker pull grafana/k6                               
+// docker pull grafana/k6                                
 // docker run -i grafana/k6 run - <perf2.js
