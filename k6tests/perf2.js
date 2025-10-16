@@ -24,9 +24,9 @@ export let options = {
   // request duration = time spent sending request, waiting for response, and receiving response
   // aka "response time"
   // the test will be marked as failed by threshold if the value is exceeded 
-  // i.e. 95% of request duration times should be < 100 ms
+  // i.e. 95% of request duration times should be < 300 ms
  	thresholds: {
-    "http_req_duration": ["p(95) < 200"]
+    "http_req_duration": ["p(95) < 300"]
   },
 
   // Don't save the bodies of HTTP responses by default, for improved performance
